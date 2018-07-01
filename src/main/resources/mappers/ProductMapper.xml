@@ -176,4 +176,44 @@
       update_time =now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"></include>
+    FROM mmall_product
+    ORDER BY id ASC
+  </select>
+
+  <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM mmall_product
+    <!--在上述SQL中加入ID的值为null的话，那么打印出来的SQL为：select * from user where name="xx" and gender="xx"
+　　where 标记会自动将其后第一个条件的and或者是or给忽略掉-->
+    <where>
+      <if test="productName != null">
+      and     name like  #{productName}
+      </if>
+      <if test="productId != null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM mmall_product
+    <where>
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="categoryIds != null">
+        <foreach collection="categoryIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+
 </mapper>
