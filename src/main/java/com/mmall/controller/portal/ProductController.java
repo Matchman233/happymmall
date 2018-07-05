@@ -22,7 +22,7 @@ public class ProductController {
     private IProductService iProductService;
 
 
-    @RequestMapping("getProductDetail")
+    @RequestMapping("getProductDetail.do")
     @ResponseBody
     public ServerResponse<ProductDetailVo> getProductDetail(Integer productId) {
         return iProductService.getProductDetail(productId);

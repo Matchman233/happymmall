@@ -106,7 +106,11 @@ public class ProductManageController {
 
     @RequestMapping("search.do")
     @ResponseBody
-    public ServerResponse productSearch(HttpSession session, String productName, Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public ServerResponse productSearch(HttpSession session,
+                                        @RequestParam(value = "productName",required = false) String productName,
+                                        @RequestParam(value = "productId",required = false)Integer productId,
+                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         // 只能管理员有权限操作
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {

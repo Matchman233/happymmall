@@ -117,5 +117,54 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="selectCartByUserIdProductId" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    AND product_id = #{productId}
+  </select>
+
+  <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="int" resultType="int">
+    SELECT count(1)
+    FROM mmall_cart
+    WHERE checked = 0
+    AND user_id = #{userId}
+  </select>
+  <delete id="deleteByUserIdProductIds" parameterType="map">
+    DELETE
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    <if test="productIds != null">
+      AND product_id IN
+      <foreach collection="productIds" separator="," open="(" close=")" item="item" index="index">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+  <update id="selectAllOrUnselect" parameterType="map">
+    UPDATE mmall_cart
+    SET checked = #{status},
+    update_time = now()
+    WHERE user_id = #{userId}
+    <if test="productId != null">
+      AND product_id = #{productId}
+    </if>
+  </update>
+
+
+  <select id="selectCartProductCount" parameterType="int" resultType="int">
+    SELECT  IFNULL(SUM(quantity),0) <!--SQL内置函数，如果查出来是null，那么赋值为0，防止报错-->
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+
 
 </mapper>
