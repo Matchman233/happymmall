@@ -24,6 +24,7 @@ public class Const {
         Set<String> PRICE_DESC_ASC = Sets.newHashSet("price_desc","price_asc");
     }
 
+
     // 定义购物车中商品选中状态
     public interface Cart{
         int CHECKED = 1; // 代表选中
