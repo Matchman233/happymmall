@@ -163,4 +163,31 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertBatch" parameterType="list" >
+    INSERT  INTO mmall_order_item(id, user_id, order_no,
+      product_id, product_name, product_image,
+      current_unit_price, quantity, total_price,
+      create_time, update_time)
+    VALUES
+      <foreach collection="orderItemList"  separator="," index="index" item="item">
+        (#{item.id},#{item.userId},#{item.orderNo},#{item.productId},#{item.productName},#{item.productImage},#{item.currentUnitPrice},#{item.quantity},#{item.totalPrice},now(),now())
+      </foreach>
+  </insert>
+  <select id="selectAllByUserIdAndOrderNo" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM  mmall_order_item
+    WHERE user_id = #{usedId}
+    AND order_no = #{orderNo}
+    Order by create_time DESC
+  </select>
+  <select id="selectAllByOrderNo" parameterType="long" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM  mmall_order_item
+    WHERE order_no = #{orderNo}
+    Order by create_time DESC
+  </select>
+
+
 </mapper>

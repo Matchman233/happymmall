@@ -167,4 +167,13 @@
   </select>
 
 
+  <select id="selectCartByStatusChecked" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    AND checked = 1
+  </select>
+
+
 </mapper>

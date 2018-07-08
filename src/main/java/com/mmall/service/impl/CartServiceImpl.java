@@ -50,6 +50,7 @@ public class CartServiceImpl implements ICartService {
             cartMapper.insert(newCart);
         }else{
             // 如果已经存在该购物车，修改商品数量
+            cart.setChecked(Const.Cart.CHECKED);
             cart.setQuantity(cart.getQuantity()+count);
             cartMapper.updateByPrimaryKeySelective(cart);
         }
